@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:masak_apa_hari_ini/pages/artikel.dart';
+import 'package:masak_apa_hari_ini/pages/beranda.dart';
+import 'package:masak_apa_hari_ini/pages/favorit.dart';
+import 'package:masak_apa_hari_ini/pages/kategori.dart';
+import 'package:masak_apa_hari_ini/pages/resep.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -9,6 +14,18 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  Widget _halaman = Beranda();
+
+  /// Ganti halaman baru dengan mengatur [_halaman], lalu menutup drawer.
+  void gantiHalaman(Widget halamanBaru) {
+    setState(() {
+      this._halaman = halamanBaru;
+
+      if (_scaffoldKey.currentState!.isDrawerOpen) {
+        Navigator.pop(context);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,40 +81,41 @@ class _MainScreenState extends State<MainScreen> {
               title: Text('Beranda'),
               leading: Icon(Icons.home),
               onTap: () {
-                print('Ke Beranda');
+                gantiHalaman(Beranda());
               },
             ),
             ListTile(
               title: Text('Resep'),
               leading: Icon(Icons.receipt_long),
               onTap: () {
-                print('Ke Resep');
+                gantiHalaman(Resep());
               },
             ),
             ListTile(
               title: Text('Kategori'),
               leading: Icon(Icons.category),
               onTap: () {
-                print('Ke Kategori');
+                gantiHalaman(Kategori());
               },
             ),
             ListTile(
               title: Text('Artikel'),
               leading: Icon(Icons.feed),
               onTap: () {
-                print('Ke Artikel');
+                gantiHalaman(Artikel());
               },
             ),
             ListTile(
-              title: Text('Favorit Saya'),
+              title: Text('Favorit'),
               leading: Icon(Icons.bookmarks),
               onTap: () {
-                print('Ke Favorit Saya');
+                gantiHalaman(Favorit());
               },
             ),
           ],
         ),
       ),
+      body: _halaman,
     );
   }
 }
