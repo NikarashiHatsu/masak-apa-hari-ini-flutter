@@ -3,6 +3,7 @@ import 'package:masak_apa_hari_ini/pages/artikel.dart';
 import 'package:masak_apa_hari_ini/pages/beranda.dart';
 import 'package:masak_apa_hari_ini/pages/favorit.dart';
 import 'package:masak_apa_hari_ini/pages/kategori.dart';
+import 'package:masak_apa_hari_ini/pages/pencarian.dart';
 import 'package:masak_apa_hari_ini/pages/resep.dart';
 
 class MainScreen extends StatefulWidget {
@@ -14,10 +15,12 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final TextEditingController _pencarianController = TextEditingController();
   Widget _halaman = Beranda();
 
-  /// Ganti halaman baru dengan mengatur [_halaman], lalu menutup drawer.
-  void gantiHalaman(Widget halamanBaru) {
+  /// Ganti halaman baru dengan mengatur [_halaman], lalu menutup [Drawer] dari
+  /// [Scaffold].
+  void _gantiHalaman(Widget halamanBaru) {
     setState(() {
       this._halaman = halamanBaru;
 
@@ -25,6 +28,37 @@ class _MainScreenState extends State<MainScreen> {
         Navigator.pop(context);
       }
     });
+  }
+
+  /// Menampilkan [BottomSheet] yang berisi form pencarian resep
+  void _tampilkanPencarian(BuildContext context) {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) {
+        double _keyboardPadding =
+            MediaQuery.of(_scaffoldKey.currentContext!).viewInsets.bottom;
+
+        return Padding(
+          padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, _keyboardPadding),
+          child: Container(
+            child: TextFormField(
+              controller: _pencarianController,
+              autofocus: true,
+              maxLength: 60,
+              onEditingComplete: () {
+                _gantiHalaman(Pencarian(keyword: _pencarianController.text));
+                Navigator.pop(context);
+              },
+              decoration: InputDecoration(
+                labelText: 'Cari resep',
+                hintText: 'Contoh: Kue Kering',
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -43,7 +77,7 @@ class _MainScreenState extends State<MainScreen> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search, color: Colors.black),
-            onPressed: () => print('Search'),
+            onPressed: () => _tampilkanPencarian(context),
           )
         ],
       ),
@@ -81,35 +115,35 @@ class _MainScreenState extends State<MainScreen> {
               title: Text('Beranda'),
               leading: Icon(Icons.home),
               onTap: () {
-                gantiHalaman(Beranda());
+                _gantiHalaman(Beranda());
               },
             ),
             ListTile(
               title: Text('Resep'),
               leading: Icon(Icons.receipt_long),
               onTap: () {
-                gantiHalaman(Resep());
+                _gantiHalaman(Resep());
               },
             ),
             ListTile(
               title: Text('Kategori'),
               leading: Icon(Icons.category),
               onTap: () {
-                gantiHalaman(Kategori());
+                _gantiHalaman(Kategori());
               },
             ),
             ListTile(
               title: Text('Artikel'),
               leading: Icon(Icons.feed),
               onTap: () {
-                gantiHalaman(Artikel());
+                _gantiHalaman(Artikel());
               },
             ),
             ListTile(
               title: Text('Favorit'),
               leading: Icon(Icons.bookmarks),
               onTap: () {
-                gantiHalaman(Favorit());
+                _gantiHalaman(Favorit());
               },
             ),
           ],
