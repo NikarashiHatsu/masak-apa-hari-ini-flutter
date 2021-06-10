@@ -1,17 +1,39 @@
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
 class Recipe {
-  String? title;
-  String? thumb;
-  String? key;
-  String? times;
-  String? portion;
-  String? difficulty;
+  String title;
+  String thumb;
+  String key;
+  String times;
+  String portion;
+  String difficulty;
 
   Recipe({
-    this.title,
-    this.thumb,
-    this.key,
-    this.times,
-    this.portion,
-    this.difficulty,
+    required this.title,
+    required this.thumb,
+    required this.key,
+    required this.times,
+    required this.portion,
+    required this.difficulty,
   });
+}
+
+Future<List<Recipe>> fetchRecipes(http.Client client) async {
+  final response = await client
+      .get(Uri.parse("https://masak-apa.tomorisakura.vercel.app/api/recipes"));
+
+  List<dynamic> data = jsonDecode(response.body)['results'];
+
+  return data.map((json) {
+    return Recipe(
+      title: json['title'],
+      thumb: json['thumb'],
+      key: json['key'],
+      times: json['times'],
+      portion: json['portion'],
+      difficulty: json['dificulty'],
+    );
+  }).toList();
 }
