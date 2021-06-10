@@ -96,6 +96,7 @@ class RecipeList extends StatelessWidget {
             difficultyColor = Color(0xFF6B7280);
         }
 
+        // TODO: buat card jadi clickable, ntar dikirim ke page lain
         return Card(
           key: Key(recipeList[index].key),
           child: Row(
