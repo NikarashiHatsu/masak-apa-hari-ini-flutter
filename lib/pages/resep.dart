@@ -15,7 +15,7 @@ class _ResepState extends State<Resep> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: fetchRecipes(http.Client()),
+      future: getRecipes(http.Client()),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         _isErrorButtonReloading = false;
 
