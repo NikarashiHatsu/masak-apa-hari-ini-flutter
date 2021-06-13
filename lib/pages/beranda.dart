@@ -38,6 +38,16 @@ class _BerandaState extends State<Beranda> {
           ),
           ListKategoriResep(),
         ])),
+        SliverList(
+            delegate: SliverChildListDelegate([
+          Container(
+            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
+            child: Text(
+              'Resep Terpopuler',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+            ),
+          ),
+        ]))
       ],
     );
   }
@@ -146,24 +156,37 @@ class RecipeLoading extends StatelessWidget {
   }
 }
 
-class NewestRecipe extends StatelessWidget {
+class NewestRecipe extends StatefulWidget {
   const NewestRecipe({Key? key, required this.recipes}) : super(key: key);
-
   final List<Recipe> recipes;
+
+  @override
+  _NewestRecipeState createState() => _NewestRecipeState();
+}
+
+class _NewestRecipeState extends State<NewestRecipe> {
+  late List<Recipe> immutableRecipes;
+
+  @override
+  initState() {
+    immutableRecipes = widget.recipes;
+    immutableRecipes.forEach((el) => el.favorite = false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 295.0,
+      height: 270.0,
       child: ListView.builder(
         padding: EdgeInsets.symmetric(horizontal: 16.0),
         scrollDirection: Axis.horizontal,
         physics: BouncingScrollPhysics(),
-        itemCount: recipes.length,
+        itemCount: widget.recipes.length,
         itemBuilder: (BuildContext context, int index) {
           Color difficultyColor;
 
-          switch (recipes[index].difficulty) {
+          switch (immutableRecipes[index].difficulty) {
             case 'Mudah':
               difficultyColor = Color(0xFF10B981);
               break;
@@ -181,80 +204,123 @@ class NewestRecipe extends StatelessWidget {
           return Container(
             width: 300.0,
             child: Card(
+              key: Key("${immutableRecipes[index].key}"),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
                     ClipRRect(
                       borderRadius: BorderRadius.circular(4.0),
                       child: Image.network(
-                        recipes[index].thumb,
+                        immutableRecipes[index].thumb,
                         fit: BoxFit.cover,
                         width: 278.0,
                         height: 125.0,
                       ),
                     ),
                     SizedBox(height: 8.0),
-                    Text(
-                      recipes[index].title,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF374151),
-                        height: 1.35,
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // crossAxisAlignment: CrossAx,
+                        children: <Widget>[
+                          Text(
+                            immutableRecipes[index].title,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xFF374151),
+                              height: 1.45,
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: <Widget>[
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Row(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(right: 4.0),
+                                        child: Icon(
+                                          Icons.schedule,
+                                          color: Color(0xFF6B7280),
+                                          size: 14.0,
+                                        ),
+                                      ),
+                                      Text(
+                                        immutableRecipes[index].times,
+                                        style:
+                                            TextStyle(color: Color(0xFF6B7280)),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(height: 4.0),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(right: 4.0),
+                                        child: Icon(
+                                          Icons.restaurant_menu,
+                                          color: Color(0xFF6B7280),
+                                          size: 14.0,
+                                        ),
+                                      ),
+                                      Text(
+                                        immutableRecipes[index].portion,
+                                        style:
+                                            TextStyle(color: Color(0xFF6B7280)),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(height: 4.0),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(right: 4.0),
+                                        child: Icon(
+                                          Icons.trending_up,
+                                          color: Color(0xFF6B7280),
+                                          size: 14.0,
+                                        ),
+                                      ),
+                                      Text(
+                                        immutableRecipes[index].difficulty,
+                                        style:
+                                            TextStyle(color: difficultyColor),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    immutableRecipes[index].favorite =
+                                        !(immutableRecipes[index].favorite ??
+                                            false);
+                                  });
+                                },
+                                icon: (immutableRecipes[index].favorite ??
+                                        false)
+                                    ? Icon(Icons.favorite, color: Colors.red)
+                                    : Icon(Icons.favorite_outline),
+                                // onPressed: () {
+                                //   setState(() {
+                                //     isFavourited = !isFavourited;
+                                //   });
+                                // },
+                                // icon: isFavourited
+                                //     ? Icon(Icons.favorite, color: Colors.red)
+                                //     : Icon(Icons.favorite_outline),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                    ),
-                    SizedBox(height: 8.0),
-                    Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(right: 4.0),
-                          child: Icon(
-                            Icons.schedule,
-                            color: Color(0xFF6B7280),
-                            size: 14.0,
-                          ),
-                        ),
-                        Text(
-                          recipes[index].times,
-                          style: TextStyle(color: Color(0xFF6B7280)),
-                        )
-                      ],
-                    ),
-                    SizedBox(height: 4.0),
-                    Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(right: 4.0),
-                          child: Icon(
-                            Icons.restaurant_menu,
-                            color: Color(0xFF6B7280),
-                            size: 14.0,
-                          ),
-                        ),
-                        Text(
-                          recipes[index].portion,
-                          style: TextStyle(color: Color(0xFF6B7280)),
-                        )
-                      ],
-                    ),
-                    SizedBox(height: 4.0),
-                    Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(right: 4.0),
-                          child: Icon(
-                            Icons.trending_up,
-                            color: Color(0xFF6B7280),
-                            size: 14.0,
-                          ),
-                        ),
-                        Text(
-                          recipes[index].difficulty,
-                          style: TextStyle(color: difficultyColor),
-                        )
-                      ],
                     ),
                   ],
                 ),
@@ -311,21 +377,6 @@ class CategoryLoading extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      Shimmer.fromColors(
-                        baseColor: Colors.grey.shade300,
-                        highlightColor: Colors.grey.shade100,
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 12.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(2.0),
-                            ),
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 8.0),
                       Shimmer.fromColors(
                         baseColor: Colors.grey.shade300,
                         highlightColor: Colors.grey.shade100,
@@ -473,6 +524,25 @@ class CategoryGrid extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class ListResepTerpopuler extends StatelessWidget {
+  const ListResepTerpopuler({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: getCategories(http.Client()),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasError) {
+          return Text('Telah terjadi kesalahan saat mengambil data resep.');
+        }
+
+        // Loading
+        return snapshot.hasData ? Text('Resep') : Text('Loading');
+      },
     );
   }
 }

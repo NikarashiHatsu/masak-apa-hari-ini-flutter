@@ -9,6 +9,7 @@ class Recipe {
   String times;
   String portion;
   String difficulty;
+  bool? favorite;
 
   Recipe({
     required this.title,
@@ -17,6 +18,7 @@ class Recipe {
     required this.times,
     required this.portion,
     required this.difficulty,
+    this.favorite,
   });
 }
 
