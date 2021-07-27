@@ -178,7 +178,7 @@ class _ContainerResepTerbaruState extends State<ContainerResepTerbaru> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 270.0,
+      height: 285.0,
       child: ListView.builder(
         padding: EdgeInsets.symmetric(horizontal: 16.0),
         scrollDirection: Axis.horizontal,
