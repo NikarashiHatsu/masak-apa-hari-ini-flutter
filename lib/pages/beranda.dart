@@ -43,10 +43,11 @@ class _BerandaState extends State<Beranda> {
           Container(
             padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
             child: Text(
-              'Resep Terpopuler',
+              '10 Resep Acak',
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
             ),
           ),
+          ListResepAcak()
         ]))
       ],
     );
@@ -67,15 +68,15 @@ class ListResepTerbaru extends StatelessWidget {
 
         // Loading
         return snapshot.hasData
-            ? NewestRecipe(recipes: snapshot.data)
-            : RecipeLoading();
+            ? ContainerResepTerbaru(recipes: snapshot.data)
+            : LoadingListResepTerbaru();
       },
     );
   }
 }
 
-class RecipeLoading extends StatelessWidget {
-  const RecipeLoading({Key? key}) : super(key: key);
+class LoadingListResepTerbaru extends StatelessWidget {
+  const LoadingListResepTerbaru({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -156,15 +157,15 @@ class RecipeLoading extends StatelessWidget {
   }
 }
 
-class NewestRecipe extends StatefulWidget {
-  const NewestRecipe({Key? key, required this.recipes}) : super(key: key);
+class ContainerResepTerbaru extends StatefulWidget {
+  const ContainerResepTerbaru({Key? key, required this.recipes}) : super(key: key);
   final List<Recipe> recipes;
 
   @override
-  _NewestRecipeState createState() => _NewestRecipeState();
+  _ContainerResepTerbaruState createState() => _ContainerResepTerbaruState();
 }
 
-class _NewestRecipeState extends State<NewestRecipe> {
+class _ContainerResepTerbaruState extends State<ContainerResepTerbaru> {
   late List<Recipe> immutableRecipes;
 
   @override
@@ -308,14 +309,6 @@ class _NewestRecipeState extends State<NewestRecipe> {
                                         false)
                                     ? Icon(Icons.favorite, color: Colors.red)
                                     : Icon(Icons.favorite_outline),
-                                // onPressed: () {
-                                //   setState(() {
-                                //     isFavourited = !isFavourited;
-                                //   });
-                                // },
-                                // icon: isFavourited
-                                //     ? Icon(Icons.favorite, color: Colors.red)
-                                //     : Icon(Icons.favorite_outline),
                               ),
                             ],
                           ),
@@ -347,15 +340,15 @@ class ListKategoriResep extends StatelessWidget {
 
         // Loading
         return snapshot.hasData
-            ? CategoryGrid(categories: snapshot.data)
-            : CategoryLoading();
+            ? ContainerKategoriResep(categories: snapshot.data)
+            : LoadingKategoriResep();
       },
     );
   }
 }
 
-class CategoryLoading extends StatelessWidget {
-  const CategoryLoading({Key? key}) : super(key: key);
+class LoadingKategoriResep extends StatelessWidget {
+  const LoadingKategoriResep({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -418,8 +411,8 @@ class CategoryLoading extends StatelessWidget {
   }
 }
 
-class CategoryGrid extends StatelessWidget {
-  const CategoryGrid({Key? key, required this.categories}) : super(key: key);
+class ContainerKategoriResep extends StatelessWidget {
+  const ContainerKategoriResep({Key? key, required this.categories}) : super(key: key);
   final List<Category> categories;
 
   @override
@@ -528,8 +521,8 @@ class CategoryGrid extends StatelessWidget {
   }
 }
 
-class ListResepTerpopuler extends StatelessWidget {
-  const ListResepTerpopuler({Key? key}) : super(key: key);
+class ListResepAcak extends StatelessWidget {
+  const ListResepAcak({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -541,8 +534,17 @@ class ListResepTerpopuler extends StatelessWidget {
         }
 
         // Loading
-        return snapshot.hasData ? Text('Resep') : Text('Loading');
+        return snapshot.hasData ? Text('Resep') : LoadingListResepAcak();
       },
     );
+  }
+}
+
+class LoadingListResepAcak extends StatelessWidget {
+  const LoadingListResepAcak({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text('Loading');
   }
 }
