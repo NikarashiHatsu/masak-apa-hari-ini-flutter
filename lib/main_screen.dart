@@ -80,6 +80,7 @@ class _MainScreenState extends State<MainScreen> {
             onPressed: () => _tampilkanPencarian(context),
           )
         ],
+        elevation: 0,
       ),
       drawer: Drawer(
         child: ListView(
