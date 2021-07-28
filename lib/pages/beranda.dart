@@ -304,19 +304,20 @@ class _ContainerResepTerbaruState extends State<ContainerResepTerbaru> {
                                     ),
                                   ],
                                 ),
-                                IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      immutableRecipes[index].favorite =
-                                          !(immutableRecipes[index].favorite ??
-                                              false);
-                                    });
-                                  },
-                                  icon: (immutableRecipes[index].favorite ??
-                                          false)
-                                      ? Icon(Icons.favorite, color: Colors.red)
-                                      : Icon(Icons.favorite_outline),
-                                ),
+                                // TODO: Implementasi local storage untuk IconButton
+                                // IconButton(
+                                //   onPressed: () {
+                                //     setState(() {
+                                //       immutableRecipes[index].favorite =
+                                //           !(immutableRecipes[index].favorite ??
+                                //               false);
+                                //     });
+                                //   },
+                                //   icon: (immutableRecipes[index].favorite ??
+                                //           false)
+                                //       ? Icon(Icons.favorite, color: Colors.red)
+                                //       : Icon(Icons.favorite_outline),
+                                // ),
                               ],
                             ),
                           ],
@@ -768,19 +769,20 @@ class _ContainerListResepAcakState extends State<ContainerListResepAcak> {
                                     ),
                                   ],
                                 ),
-                                IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      immutableRecipes[index].favorite =
-                                          !(immutableRecipes[index].favorite ??
-                                              false);
-                                    });
-                                  },
-                                  icon: (immutableRecipes[index].favorite ??
-                                          false)
-                                      ? Icon(Icons.favorite, color: Colors.red)
-                                      : Icon(Icons.favorite_outline),
-                                ),
+                                // TODO: Implementasi local storage untuk IconButton
+                                // IconButton(
+                                //   onPressed: () {
+                                //     setState(() {
+                                //       immutableRecipes[index].favorite =
+                                //           !(immutableRecipes[index].favorite ??
+                                //               false);
+                                //     });
+                                //   },
+                                //   icon: (immutableRecipes[index].favorite ??
+                                //           false)
+                                //       ? Icon(Icons.favorite, color: Colors.red)
+                                //       : Icon(Icons.favorite_outline),
+                                // ),
                               ],
                             ),
                           ],
