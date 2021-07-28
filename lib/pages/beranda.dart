@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:masak_apa_hari_ini/model/category.dart';
 import 'package:masak_apa_hari_ini/model/recipe.dart';
 import 'package:masak_apa_hari_ini/pages/detail_resep.dart';
+import 'package:masak_apa_hari_ini/pages/list_resep_di_kategori.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Beranda extends StatefulWidget {
@@ -204,7 +205,6 @@ class _ContainerResepTerbaruState extends State<ContainerResepTerbaru> {
               difficultyColor = Color(0xFF6B7280);
           }
 
-          // TODO: Buat card jadi clickable
           return InkWell(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => DetailResep(recipe: immutableRecipes[index])));
@@ -475,52 +475,58 @@ class ContainerKategoriResep extends StatelessWidget {
               break;
           }
 
-          // TODO: Buat kategori resep jadi clickable
-          return Card(
-            key: Key(categories[index].key),
-            child: Stack(
-              children: <Widget>[
-                useImageNetwork
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(4.0),
-                        child: Image.network(
-                          cardImageDirectory,
-                          width: cardSize.width,
-                          height: cardSize.height,
-                          fit: BoxFit.cover,
+          return InkWell(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
+                return ListResepDiKategori(category: categories[index]);
+              }));
+            },
+            child: Card(
+              key: Key(categories[index].key),
+              child: Stack(
+                children: <Widget>[
+                  useImageNetwork
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(4.0),
+                          child: Image.network(
+                            cardImageDirectory,
+                            width: cardSize.width,
+                            height: cardSize.height,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(4.0),
+                          child: Image.asset(
+                            cardImageDirectory,
+                            width: cardSize.width,
+                            height: cardSize.height,
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      )
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(4.0),
-                        child: Image.asset(
-                          cardImageDirectory,
-                          width: cardSize.width,
-                          height: cardSize.height,
-                          fit: BoxFit.cover,
+                  Container(
+                    width: cardSize.width,
+                    height: cardSize.height,
+                    decoration: BoxDecoration(
+                        color: Colors.black45,
+                        borderRadius: BorderRadius.circular(4.0)),
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        categories[index].category,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.25,
                         ),
-                      ),
-                Container(
-                  width: cardSize.width,
-                  height: cardSize.height,
-                  decoration: BoxDecoration(
-                      color: Colors.black45,
-                      borderRadius: BorderRadius.circular(4.0)),
-                ),
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      categories[index].category,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.25,
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },

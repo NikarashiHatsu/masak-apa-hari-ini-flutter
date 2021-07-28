@@ -1,77 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:masak_apa_hari_ini/model/category.dart';
 import 'package:http/http.dart' as http;
 import 'package:masak_apa_hari_ini/model/recipe.dart';
 import 'package:masak_apa_hari_ini/pages/detail_resep.dart';
 
-class Resep extends StatefulWidget {
-  const Resep({Key? key}) : super(key: key);
-
-  @override
-  _ResepState createState() => _ResepState();
-}
-
-class _ResepState extends State<Resep> {
-  bool _isErrorButtonReloading = false;
+class ListResepDiKategori extends StatelessWidget {
+  const ListResepDiKategori({ Key? key, required this.category }) : super(key: key);
+  final Category category;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: getRecipes(http.Client()),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        _isErrorButtonReloading = false;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Resep di kategori ${category.category}', style: TextStyle(color: Colors.black87)),
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(
+          color: Colors.black87,
+        ),
+      ),
+      body: FutureBuilder(
+        future: getRecipesFromCategory(http.Client(), category.key),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text('Telah terjadi kesalahan saat mengambil data resep:' + snapshot.error.toString()));
+          }
 
-        // Loading
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return snapshot.hasData
+            ? ContainerListResepDiKategori(recipes: snapshot.data)
+            : Center(child: CircularProgressIndicator());
         }
-
-        // Has error
-        if (snapshot.connectionState == ConnectionState.done &&
-            snapshot.hasError) {
-          return Container(
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text('Terjadi kesalahan pada saat mengambil data resep.'),
-                SizedBox(height: 8.0),
-                MaterialButton(
-                  child: _isErrorButtonReloading
-                      ? Text('Memuat ulang...')
-                      : Text('Muat ulang'),
-                  color: Colors.blue,
-                  disabledColor: Colors.grey,
-                  textColor: Colors.white,
-                  onPressed: _isErrorButtonReloading
-                      ? null
-                      : () {
-                          _isErrorButtonReloading = true;
-                          setState(() {});
-                        },
-                )
-              ],
-            ),
-          );
-        }
-
-        // Done
-        return snapshot.hasData
-            ? RefreshIndicator(
-                onRefresh: () async {
-                  setState(() {});
-                },
-                child: RecipeList(recipeList: snapshot.data))
-            : Center(child: Text('Tidak ada data yang dapat ditampilkan'));
-      },
+      ),
     );
   }
 }
 
-class RecipeList extends StatelessWidget {
-  const RecipeList({Key? key, required this.recipeList}) : super(key: key);
-
-  final List<Recipe> recipeList;
+class ContainerListResepDiKategori extends StatelessWidget {
+  const ContainerListResepDiKategori({ Key? key, required this.recipes }) : super(key: key);
+  final List<Recipe> recipes;
 
   @override
   Widget build(BuildContext context) {
@@ -79,11 +44,11 @@ class RecipeList extends StatelessWidget {
       padding: EdgeInsets.all(16.0),
       physics: BouncingScrollPhysics(),
       shrinkWrap: false,
-      itemCount: recipeList.length,
+      itemCount: recipes.length,
       itemBuilder: (BuildContext context, int index) {
         Color difficultyColor;
 
-        switch (recipeList[index].difficulty) {
+        switch (recipes[index].difficulty) {
           case 'Mudah':
             difficultyColor = Color(0xFF10B981);
             break;
@@ -99,10 +64,10 @@ class RecipeList extends StatelessWidget {
 
         return InkWell(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => DetailResep(recipe: recipeList[index])));
+            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => DetailResep(recipe: recipes[index])));
           },
           child: Card(
-            key: Key(recipeList[index].key),
+            key: Key(recipes[index].key),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -112,7 +77,7 @@ class RecipeList extends StatelessWidget {
                     bottomLeft: Radius.circular(4.0),
                   ),
                   child: Image.network(
-                    recipeList[index].thumb,
+                    recipes[index].thumb,
                     width: 125.0,
                     height: 150.0,
                     fit: BoxFit.cover,
@@ -127,7 +92,7 @@ class RecipeList extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          recipeList[index].title,
+                          recipes[index].title,
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             color: Color(0xFF374151),
@@ -145,7 +110,7 @@ class RecipeList extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              recipeList[index].times,
+                              recipes[index].times,
                               style: TextStyle(color: Color(0xFF6B7280)),
                             )
                           ],
@@ -162,7 +127,7 @@ class RecipeList extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              recipeList[index].portion,
+                              recipes[index].portion,
                               style: TextStyle(color: Color(0xFF6B7280)),
                             )
                           ],
@@ -179,7 +144,7 @@ class RecipeList extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              recipeList[index].difficulty,
+                              recipes[index].difficulty,
                               style: TextStyle(color: difficultyColor),
                             )
                           ],

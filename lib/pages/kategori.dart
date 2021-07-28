@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:masak_apa_hari_ini/model/category.dart';
+import 'package:masak_apa_hari_ini/pages/list_resep_di_kategori.dart';
 
 class Kategori extends StatefulWidget {
   const Kategori({Key? key}) : super(key: key);
@@ -75,8 +76,9 @@ class CategoryListBuilder extends StatelessWidget {
           key: Key(category[index].key),
           title: Text(category[index].category),
           onTap: () {
-            // TODO: Buat redirection ke list category
-            print(category[index].url);
+            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
+              return ListResepDiKategori(category: category[index]);
+            }));
           },
         );
       },
