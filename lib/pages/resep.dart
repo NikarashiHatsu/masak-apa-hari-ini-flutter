@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:masak_apa_hari_ini/model/recipe.dart';
+import 'package:masak_apa_hari_ini/pages/detail_resep.dart';
 
 class Resep extends StatefulWidget {
   const Resep({Key? key}) : super(key: key);
@@ -97,94 +98,99 @@ class RecipeList extends StatelessWidget {
         }
 
         // TODO: buat card jadi clickable, ntar dikirim ke page lain
-        return Card(
-          key: Key(recipeList[index].key),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(4.0),
-                  bottomLeft: Radius.circular(4.0),
-                ),
-                child: Image.network(
-                  recipeList[index].thumb,
-                  width: 125.0,
-                  height: 150.0,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Expanded(
-                flex: 3,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        recipeList[index].title,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF374151),
-                        ),
-                      ),
-                      SizedBox(height: 8.0),
-                      Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(right: 4.0),
-                            child: Icon(
-                              Icons.schedule,
-                              color: Color(0xFF6B7280),
-                              size: 14.0,
-                            ),
-                          ),
-                          Text(
-                            recipeList[index].times,
-                            style: TextStyle(color: Color(0xFF6B7280)),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 4.0),
-                      Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(right: 4.0),
-                            child: Icon(
-                              Icons.restaurant_menu,
-                              color: Color(0xFF6B7280),
-                              size: 14.0,
-                            ),
-                          ),
-                          Text(
-                            recipeList[index].portion,
-                            style: TextStyle(color: Color(0xFF6B7280)),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 4.0),
-                      Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(right: 4.0),
-                            child: Icon(
-                              Icons.trending_up,
-                              color: Color(0xFF6B7280),
-                              size: 14.0,
-                            ),
-                          ),
-                          Text(
-                            recipeList[index].difficulty,
-                            style: TextStyle(color: difficultyColor),
-                          )
-                        ],
-                      ),
-                    ],
+        return InkWell(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => DetailResep(recipe: recipeList[index])));
+          },
+          child: Card(
+            key: Key(recipeList[index].key),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(4.0),
+                    bottomLeft: Radius.circular(4.0),
+                  ),
+                  child: Image.network(
+                    recipeList[index].thumb,
+                    width: 125.0,
+                    height: 150.0,
+                    fit: BoxFit.cover,
                   ),
                 ),
-              )
-            ],
+                Expanded(
+                  flex: 3,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          recipeList[index].title,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF374151),
+                          ),
+                        ),
+                        SizedBox(height: 8.0),
+                        Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(right: 4.0),
+                              child: Icon(
+                                Icons.schedule,
+                                color: Color(0xFF6B7280),
+                                size: 14.0,
+                              ),
+                            ),
+                            Text(
+                              recipeList[index].times,
+                              style: TextStyle(color: Color(0xFF6B7280)),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 4.0),
+                        Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(right: 4.0),
+                              child: Icon(
+                                Icons.restaurant_menu,
+                                color: Color(0xFF6B7280),
+                                size: 14.0,
+                              ),
+                            ),
+                            Text(
+                              recipeList[index].portion,
+                              style: TextStyle(color: Color(0xFF6B7280)),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 4.0),
+                        Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(right: 4.0),
+                              child: Icon(
+                                Icons.trending_up,
+                                color: Color(0xFF6B7280),
+                                size: 14.0,
+                              ),
+                            ),
+                            Text(
+                              recipeList[index].difficulty,
+                              style: TextStyle(color: difficultyColor),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         );
       },
