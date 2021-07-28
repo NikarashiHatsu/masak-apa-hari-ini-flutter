@@ -647,7 +647,7 @@ class _ContainerListResepAcakState extends State<ContainerListResepAcak> {
       child: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height * 0.975),
+          childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height * 0.8),
         ),
         itemCount: immutableRecipes.length,
         shrinkWrap: true,
