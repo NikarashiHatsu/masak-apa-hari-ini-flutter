@@ -45,10 +45,10 @@ class ContainerDetailResep extends StatelessWidget {
       case 'Mudah':
         difficultyColor = Color(0xFF10B981);
         break;
-      case 'Cukup Rumit':
+      case 'Cukup rumit':
         difficultyColor = Color(0xFFF59E0B);
         break;
-      case 'Level Chef Panji':
+      case 'Level chef panji':
         difficultyColor = Color(0xFFEF4444);
         break;
       default:
