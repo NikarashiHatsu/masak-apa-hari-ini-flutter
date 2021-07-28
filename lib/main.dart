@@ -11,8 +11,10 @@ class MasakApaHariIniApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // TODO: Implementasi local storage untuk "resep & artikel favorit"
       home: MainScreen(),
       title: 'Masak Apa Hari Ini?',
+      debugShowCheckedModeBanner: false,
     );
   }
 }

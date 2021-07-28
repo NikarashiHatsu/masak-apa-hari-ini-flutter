@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:masak_apa_hari_ini/pages/artikel.dart';
 import 'package:masak_apa_hari_ini/pages/beranda.dart';
-import 'package:masak_apa_hari_ini/pages/favorit.dart';
 import 'package:masak_apa_hari_ini/pages/kategori.dart';
 import 'package:masak_apa_hari_ini/pages/pencarian.dart';
 import 'package:masak_apa_hari_ini/pages/resep.dart';
+// import 'package:masak_apa_hari_ini/pages/artikel.dart';
+// import 'package:masak_apa_hari_ini/pages/favorit.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -133,20 +133,22 @@ class _MainScreenState extends State<MainScreen> {
                 _gantiHalaman(Kategori());
               },
             ),
-            ListTile(
-              title: Text('Artikel'),
-              leading: Icon(Icons.feed),
-              onTap: () {
-                _gantiHalaman(Artikel());
-              },
-            ),
-            ListTile(
-              title: Text('Favorit'),
-              leading: Icon(Icons.bookmarks),
-              onTap: () {
-                _gantiHalaman(Favorit());
-              },
-            ),
+            // TODO: Tambah menu Artikel
+            // ListTile(
+            //   title: Text('Artikel'),
+            //   leading: Icon(Icons.feed),
+            //   onTap: () {
+            //     _gantiHalaman(Artikel());
+            //   },
+            // ),
+            // TODO: Implementasi local storage untuk favorit
+            // ListTile(
+            //   title: Text('Favorit'),
+            //   leading: Icon(Icons.bookmarks),
+            //   onTap: () {
+            //     _gantiHalaman(Favorit());
+            //   },
+            // ),
           ],
         ),
       ),
