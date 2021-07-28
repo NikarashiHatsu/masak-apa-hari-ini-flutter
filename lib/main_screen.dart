@@ -47,8 +47,10 @@ class _MainScreenState extends State<MainScreen> {
               autofocus: true,
               maxLength: 60,
               onEditingComplete: () {
-                _gantiHalaman(Pencarian(keyword: _pencarianController.text));
                 Navigator.pop(context);
+                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
+                  return Pencarian(keyword: _pencarianController.text);
+                }));
               },
               decoration: InputDecoration(
                 labelText: 'Cari resep',
