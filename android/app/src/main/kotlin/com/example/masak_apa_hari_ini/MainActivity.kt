@@ -1,4 +1,4 @@
-package com.example.masak_apa_hari_ini
+package com.shiroyuki.masak_apa_hari_ini
 
 import io.flutter.embedding.android.FlutterActivity
 
